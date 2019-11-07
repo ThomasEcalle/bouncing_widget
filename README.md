@@ -2,13 +2,28 @@
 
 A widget that enables you to add a bouncing animation on a widget.
 
-## Getting Started
+## Example
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+<p align="center">
+<img src="https://raw.githubusercontent.com/ThomasEcalle/bouncing_widget/master/documentation/ezgif.com-video-to-gif.gif" width="180" height="360"/>
+</p>
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## How does it work ?
+
+You just have to encapsulate the widget of your choice with a `BouncingWidget`.
+
+```
+BouncingWidget(
+  onPressed: () {
+    print("onPressed");
+  },
+  child: Text(
+    "Hello !",
+    style: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 35,
+    ),
+  ),
+),
+```
