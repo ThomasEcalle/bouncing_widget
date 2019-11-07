@@ -57,7 +57,7 @@ class Home extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: Icon(Icons.add),
                 ),
               ),
@@ -72,7 +72,7 @@ class Home extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 32,
+                    fontSize: 35,
                   ),
                 )),
           ],
