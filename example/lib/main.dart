@@ -66,15 +66,16 @@ class Home extends StatelessWidget {
               height: 40,
             ),
             BouncingWidget(
-                onPressed: () => _onPressed(context),
-                child: Text(
-                  "Hello !",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 35,
-                  ),
-                )),
+              onPressed: () => _onPressed(context),
+              child: Text(
+                "Hello !",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 35,
+                ),
+              ),
+            ),
           ],
         ),
       ),
