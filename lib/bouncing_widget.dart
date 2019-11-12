@@ -9,19 +9,25 @@ class BouncingWidget extends StatefulWidget {
   /// Callback on click event
   final VoidCallback onPressed;
 
+  /// Scale factor
+  ///  < 0 => the bouncing will be reversed and widget will grow
+  ///    1 => default value
+  ///  > 1 => increase the bouncing effect
+  final double scaleFactor;
+
   /// BouncingWidget constructor
   const BouncingWidget({
     Key key,
     @required this.child,
     @required this.onPressed,
+    this.scaleFactor = 1,
   }) : super(key: key);
 
   @override
   _BouncingWidgetState createState() => _BouncingWidgetState();
 }
 
-class _BouncingWidgetState extends State<BouncingWidget>
-    with SingleTickerProviderStateMixin {
+class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProviderStateMixin {
   //// Animation controller
   AnimationController _controller;
 
@@ -39,6 +45,9 @@ class _BouncingWidgetState extends State<BouncingWidget>
 
   /// Simple getter on widget's onPressed callback
   VoidCallback get onPressed => widget.onPressed;
+
+  /// Simple getter on widget's scaleFactor
+  double get scaleFactor => widget.scaleFactor;
 
   /// We instantiate the animation controller
   /// The idea is to call setState() each time the controller's
@@ -63,7 +72,7 @@ class _BouncingWidgetState extends State<BouncingWidget>
   /// and pass it to our Transform.scale widget
   @override
   Widget build(BuildContext context) {
-    _scale = 1 - _controller.value;
+    _scale = 1 - (_controller.value * scaleFactor);
     return GestureDetector(
       onTapDown: _onTapDown,
       onTapUp: _onTapUp,
@@ -130,8 +139,7 @@ class _BouncingWidgetState extends State<BouncingWidget>
   /// Method called when we need to now if a specific touch position is inside the given
   /// child render box
   bool _isOutsideChildBox(Offset touchPosition) {
-    final RenderBox childRenderBox =
-        _childKey.currentContext.findRenderObject();
+    final RenderBox childRenderBox = _childKey.currentContext.findRenderObject();
     final Size childSize = childRenderBox.size;
     final Offset childPosition = childRenderBox.localToGlobal(Offset.zero);
 

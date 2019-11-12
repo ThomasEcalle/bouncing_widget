@@ -12,7 +12,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  double _scaleFactor = 1.0;
+
   _onPressed(BuildContext context) {
     print("CLICK");
   }
@@ -26,6 +33,7 @@ class Home extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             BouncingWidget(
+              scaleFactor: _scaleFactor,
               onPressed: () => _onPressed(context),
               child: Container(
                 height: 60,
@@ -50,6 +58,7 @@ class Home extends StatelessWidget {
               height: 40,
             ),
             BouncingWidget(
+              scaleFactor: _scaleFactor,
               onPressed: () => _onPressed(context),
               child: Container(
                 decoration: BoxDecoration(
@@ -66,6 +75,7 @@ class Home extends StatelessWidget {
               height: 40,
             ),
             BouncingWidget(
+              scaleFactor: _scaleFactor,
               onPressed: () => _onPressed(context),
               child: Text(
                 "Hello !",
@@ -73,6 +83,30 @@ class Home extends StatelessWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 35,
+                ),
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * .5,
+              child: Slider(
+                activeColor: Colors.amber,
+                inactiveColor: Colors.amberAccent,
+                min: -5,
+                max: 5,
+                value: _scaleFactor,
+                onChanged: (double newValue) {
+                  setState(() {
+                    _scaleFactor = newValue;
+                  });
+                },
+              ),
+            ),
+            Center(
+              child: Text(
+                "Scale factor = ${num.parse(_scaleFactor.toStringAsFixed(2))}",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
                 ),
               ),
             ),
