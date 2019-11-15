@@ -1,6 +1,6 @@
 name: bouncing_widget
 description: A widget that enables you to add a bouncing animation on a widget.
-version: 1.1.0
+version: 1.1.1
 homepage: https://github.com/ThomasEcalle/bouncing_widget
 
 environment:
