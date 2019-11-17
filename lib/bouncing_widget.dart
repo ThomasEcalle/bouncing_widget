@@ -27,8 +27,7 @@ class BouncingWidget extends StatefulWidget {
   _BouncingWidgetState createState() => _BouncingWidgetState();
 }
 
-class _BouncingWidgetState extends State<BouncingWidget>
-    with SingleTickerProviderStateMixin {
+class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProviderStateMixin {
   //// Animation controller
   AnimationController _controller;
 
@@ -66,6 +65,12 @@ class _BouncingWidgetState extends State<BouncingWidget>
         setState(() {});
       });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   /// Each time the [_controller]'s value changes, build() will be called
@@ -140,8 +145,7 @@ class _BouncingWidgetState extends State<BouncingWidget>
   /// Method called when we need to now if a specific touch position is inside the given
   /// child render box
   bool _isOutsideChildBox(Offset touchPosition) {
-    final RenderBox childRenderBox =
-        _childKey.currentContext.findRenderObject();
+    final RenderBox childRenderBox = _childKey.currentContext.findRenderObject();
     final Size childSize = childRenderBox.size;
     final Offset childPosition = childRenderBox.localToGlobal(Offset.zero);
 
