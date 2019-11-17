@@ -72,9 +72,10 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
     super.initState();
   }
 
+  /// Dispose the animation controller
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
