@@ -15,12 +15,15 @@ class BouncingWidget extends StatefulWidget {
   ///  > 1 => increase the bouncing effect
   final double scaleFactor;
 
+  final Duration duration;
+
   /// BouncingWidget constructor
   const BouncingWidget({
     Key key,
     @required this.child,
     @required this.onPressed,
     this.scaleFactor = 1,
+    this.duration = const Duration(milliseconds: 200),
   }) : super(key: key);
 
   @override
@@ -49,6 +52,10 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
   /// Simple getter on widget's scaleFactor
   double get scaleFactor => widget.scaleFactor;
 
+  /// Simple getter on widget's animation duration
+  Duration get duration => widget.duration;
+
+
   /// We instantiate the animation controller
   /// The idea is to call setState() each time the controller's
   /// value changes
@@ -56,9 +63,7 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
   void initState() {
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(
-        milliseconds: 200,
-      ),
+      duration: duration,
       lowerBound: 0.0,
       upperBound: 0.1,
     )..addListener(() {
