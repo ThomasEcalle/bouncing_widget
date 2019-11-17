@@ -114,7 +114,10 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
 
   /// We reverse the animation and notify the user of a press event
   _onTapUp(TapUpDetails details) {
-    _controller.reverse();
+    Future.delayed(duration, () {
+      _controller.reverse();
+    });
+
     _triggerOnPressed();
   }
 
