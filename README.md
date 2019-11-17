@@ -13,9 +13,11 @@ A widget that enables you to add a bouncing animation on a widget.
 You just have to encapsulate the widget of your choice with a `BouncingWidget`.
 
 You may also use a `scaleFactor` to customize the scaling effect as in the gif example.
+Or even customize the animation's duration with the `duration` parameter (200 milliseconds by default).
 
 ```
 BouncingWidget(
+  duration: Duration(milliseconds: 100),
   scaleFactor: 1.5,
   onPressed: () {
     print("onPressed");
