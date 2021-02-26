@@ -17,6 +17,8 @@ class BouncingWidget extends StatefulWidget {
 
   final Duration duration;
 
+  final bool stayOnBottom;
+
   /// BouncingWidget constructor
   const BouncingWidget({
     Key key,
@@ -24,6 +26,7 @@ class BouncingWidget extends StatefulWidget {
     @required this.onPressed,
     this.scaleFactor = 1,
     this.duration = const Duration(milliseconds: 200),
+    this.stayOnBottom = false,
   }) : super(key: key);
 
   @override
@@ -55,6 +58,7 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
   /// Simple getter on widget's animation duration
   Duration get duration => widget.duration;
 
+  bool _stayOnBottom;
 
   /// We instantiate the animation controller
   /// The idea is to call setState() each time the controller's
@@ -69,7 +73,21 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
     )..addListener(() {
         setState(() {});
       });
+
+    _stayOnBottom = widget.stayOnBottom;
+
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(BouncingWidget oldWidget) {
+    if (oldWidget.stayOnBottom != widget.stayOnBottom) {
+      _stayOnBottom = widget.stayOnBottom;
+      if (!_stayOnBottom) {
+        _controller.reverse();
+      }
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   /// Dispose the animation controller
@@ -115,9 +133,11 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
 
   /// We reverse the animation and notify the user of a press event
   _onTapUp(TapUpDetails details) {
-    Future.delayed(duration, () {
-      _controller.reverse();
-    });
+    if (!_stayOnBottom) {
+      Future.delayed(duration, () {
+        _controller.reverse();
+      });
+    }
 
     _triggerOnPressed();
   }
@@ -137,7 +157,6 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
     if (!_isOutsideChildBox(touchPosition)) {
       _triggerOnPressed();
     }
-
     _controller.reverse();
   }
 
