@@ -11,3 +11,5 @@
 * Fix the call on controller dispose method
 * Add the ability to customize the animation duration
 * Make the animation appears even on simple click
+
+## [1.2.1] - Fix error
