@@ -157,7 +157,10 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
     if (!_isOutsideChildBox(touchPosition)) {
       _triggerOnPressed();
     }
-    _controller.reverse();
+
+    if (mounted) {
+      _controller.reverse();
+    }
   }
 
   /// When this callback is triggered, we reverse the animation
