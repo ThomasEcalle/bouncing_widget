@@ -13,3 +13,5 @@
 * Make the animation appears even on simple click
 
 ## [1.2.1] - Fix error
+
+## [1.2.2] - Fix error on onLongPress
