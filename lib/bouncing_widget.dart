@@ -84,7 +84,7 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
     if (oldWidget.stayOnBottom != widget.stayOnBottom) {
       _stayOnBottom = widget.stayOnBottom;
       if (!_stayOnBottom) {
-        _controller.reverse();
+        _reverseAnimation();
       }
     }
     super.didUpdateWidget(oldWidget);
@@ -135,7 +135,7 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
   _onTapUp(TapUpDetails details) {
     if (!_stayOnBottom) {
       Future.delayed(duration, () {
-        _controller.reverse();
+        _reverseAnimation();
       });
     }
 
@@ -158,9 +158,7 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
       _triggerOnPressed();
     }
 
-    if (mounted) {
-      _controller.reverse();
-    }
+    _reverseAnimation();
   }
 
   /// When this callback is triggered, we reverse the animation
@@ -170,7 +168,13 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
     if (!_isOutside) {
       _triggerOnPressed();
     }
-    _controller.reverse();
+    _reverseAnimation();
+  }
+
+  _reverseAnimation() {
+    if (mounted) {
+      _controller.reverse();
+    }
   }
 
   /// Method called when we need to now if a specific touch position is inside the given
