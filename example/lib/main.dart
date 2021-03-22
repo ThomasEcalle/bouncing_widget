@@ -19,7 +19,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   double _scaleFactor = 1.0;
-  bool stayOnBottom = true;
 
   _onPressed(BuildContext context) {
     print("CLICK");
@@ -37,7 +36,6 @@ class _HomeState extends State<Home> {
             BouncingWidget(
               scaleFactor: _scaleFactor,
               onPressed: () => _onPressed(context),
-              stayOnBottom: stayOnBottom,
               child: Container(
                 height: 60,
                 width: 270,
@@ -62,11 +60,33 @@ class _HomeState extends State<Home> {
             ),
             BouncingWidget(
               scaleFactor: _scaleFactor,
+              onPressed: () => _onPressed(context),
+              stayOnBottom: true,
+              child: Container(
+                height: 60,
+                width: 270,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100.0),
+                  color: Colors.white,
+                ),
+                child: Center(
+                  child: Text(
+                    'Stay on bottom',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF8185E2),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            BouncingWidget(
+              scaleFactor: _scaleFactor,
               onPressed: () {
-                setState(() {
-                  print("toto");
-                  stayOnBottom = !stayOnBottom;
-                });
                 _onPressed(context);
               },
               child: Container(
