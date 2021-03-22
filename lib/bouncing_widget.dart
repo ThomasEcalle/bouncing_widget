@@ -15,15 +15,17 @@ class BouncingWidget extends StatefulWidget {
   ///  > 1 => increase the bouncing effect
   final double scaleFactor;
 
+  /// Animation duration
   final Duration duration;
 
+  /// Whether the animation can revers or not
   final bool stayOnBottom;
 
   /// BouncingWidget constructor
   const BouncingWidget({
-    Key key,
-    @required this.child,
-    @required this.onPressed,
+    Key? key,
+    required this.child,
+    required this.onPressed,
     this.scaleFactor = 1,
     this.duration = const Duration(milliseconds: 200),
     this.stayOnBottom = false,
@@ -35,10 +37,10 @@ class BouncingWidget extends StatefulWidget {
 
 class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProviderStateMixin {
   //// Animation controller
-  AnimationController _controller;
+  late AnimationController _controller;
 
   /// View scale used in order to make the bouncing animation
-  double _scale;
+  late double _scale;
 
   /// Key of the given child used to get its size and position whenever we need
   GlobalKey _childKey = GlobalKey();
@@ -58,7 +60,8 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
   /// Simple getter on widget's animation duration
   Duration get duration => widget.duration;
 
-  bool _stayOnBottom;
+  /// Simple getter on widget's stayOnBottom boolean
+  bool get _stayOnBottom => widget.stayOnBottom;
 
   /// We instantiate the animation controller
   /// The idea is to call setState() each time the controller's
@@ -74,15 +77,12 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
         setState(() {});
       });
 
-    _stayOnBottom = widget.stayOnBottom;
-
     super.initState();
   }
 
   @override
   void didUpdateWidget(BouncingWidget oldWidget) {
-    if (oldWidget.stayOnBottom != widget.stayOnBottom) {
-      _stayOnBottom = widget.stayOnBottom;
+    if (oldWidget.stayOnBottom != _stayOnBottom) {
       if (!_stayOnBottom) {
         _reverseAnimation();
       }
@@ -93,7 +93,7 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
   /// Dispose the animation controller
   @override
   void dispose() {
-    _controller?.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -121,9 +121,7 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
 
   /// Simple method called when we need to notify the user of a press event
   _triggerOnPressed() {
-    if (onPressed != null) {
-      onPressed();
-    }
+    onPressed();
   }
 
   /// We start the animation
@@ -180,7 +178,10 @@ class _BouncingWidgetState extends State<BouncingWidget> with SingleTickerProvid
   /// Method called when we need to now if a specific touch position is inside the given
   /// child render box
   bool _isOutsideChildBox(Offset touchPosition) {
-    final RenderBox childRenderBox = _childKey.currentContext.findRenderObject();
+    final RenderBox? childRenderBox = _childKey.currentContext?.findRenderObject() as RenderBox?;
+    if (childRenderBox == null) {
+      return true;
+    }
     final Size childSize = childRenderBox.size;
     final Offset childPosition = childRenderBox.localToGlobal(Offset.zero);
 
