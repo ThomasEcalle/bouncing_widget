@@ -17,3 +17,7 @@
 ## [1.2.2] - Fix error on onLongPress
 
 ## [1.2.3] - Fix all reversed animations errors
+
+## [2.0.0] - Null Safety
+
+* Add Null Safety handling
