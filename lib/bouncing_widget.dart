@@ -1,5 +1,3 @@
-library bouncing_widget;
-
 import 'package:flutter/material.dart';
 
 class BouncingWidget extends StatefulWidget {
@@ -23,9 +21,9 @@ class BouncingWidget extends StatefulWidget {
 
   /// BouncingWidget constructor
   const BouncingWidget({
-    Key? key,
     required this.child,
     required this.onPressed,
+    Key? key,
     this.scaleFactor = 1,
     this.duration = const Duration(milliseconds: 200),
     this.stayOnBottom = false,
@@ -44,7 +42,7 @@ class _BouncingWidgetState extends State<BouncingWidget>
   late double _scale;
 
   /// Key of the given child used to get its size and position whenever we need
-  GlobalKey _childKey = GlobalKey();
+  final GlobalKey _childKey = GlobalKey();
 
   /// If the touch position is outside or not of the given child
   bool _isOutside = false;
@@ -121,9 +119,7 @@ class _BouncingWidgetState extends State<BouncingWidget>
   }
 
   /// Simple method called when we need to notify the user of a press event
-  _triggerOnPressed() {
-    onPressed();
-  }
+  Future<void> _triggerOnPressed() async => onPressed();
 
   /// We start the animation
   _onTapDown(TapDownDetails details) {
@@ -131,7 +127,7 @@ class _BouncingWidgetState extends State<BouncingWidget>
   }
 
   /// We reverse the animation and notify the user of a press event
-  _onTapUp(TapUpDetails details) {
+  Future<void> _onTapUp(TapUpDetails details) async {
     if (!_stayOnBottom) {
       Future.delayed(duration, () {
         _reverseAnimation();
@@ -143,15 +139,17 @@ class _BouncingWidgetState extends State<BouncingWidget>
 
   /// Here we are listening on each change when drag event is triggered
   /// We must keep the [_isOutside] value updated in order to use it later
-  _onDragUpdate(DragUpdateDetails details, BuildContext context) {
+  Future<void> _onDragUpdate(
+      DragUpdateDetails details, BuildContext context) async {
     final Offset touchPosition = details.globalPosition;
     _isOutside = _isOutsideChildBox(touchPosition);
   }
 
   /// When this callback is triggered, we reverse the animation
   /// If the touch position is inside the children renderBox, we notify the user of a press event
-  _onLongPressEnd(LongPressEndDetails details, BuildContext context) {
-    final Offset touchPosition = details.globalPosition;
+  Future<void> _onLongPressEnd(
+      LongPressEndDetails details, BuildContext context) async {
+    final touchPosition = details.globalPosition;
 
     if (!_isOutsideChildBox(touchPosition)) {
       _triggerOnPressed();
@@ -163,14 +161,14 @@ class _BouncingWidgetState extends State<BouncingWidget>
   /// When this callback is triggered, we reverse the animation
   /// As we do not have position details, we use the [_isOutside] field to know
   /// if we need to notify the user of a press event
-  _onDragEnd(DragEndDetails details) {
+  Future<void> _onDragEnd(DragEndDetails details) async {
     if (!_isOutside) {
       _triggerOnPressed();
     }
     _reverseAnimation();
   }
 
-  _reverseAnimation() {
+  Future<void> _reverseAnimation() async {
     if (mounted) {
       _controller.reverse();
     }
@@ -178,8 +176,8 @@ class _BouncingWidgetState extends State<BouncingWidget>
 
   /// Method called when we need to now if a specific touch position is inside the given
   /// child render box
-  bool _isOutsideChildBox(Offset touchPosition) {
-    final RenderBox? childRenderBox =
+  Future<bool> _isOutsideChildBox(Offset touchPosition) async {
+    final childRenderBox =
         _childKey.currentContext?.findRenderObject() as RenderBox?;
     if (childRenderBox == null) {
       return true;
